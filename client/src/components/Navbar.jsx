@@ -72,6 +72,15 @@ const Navbar = () => {
                     <Link
                       className="nav-link active"
                       aria-current="page"
+                      to={"/create-todo"}
+                    >
+                      Your Todos
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
                       to={"/categories"}
                     >
                       Categories

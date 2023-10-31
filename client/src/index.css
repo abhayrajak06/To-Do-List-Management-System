@@ -85,3 +85,17 @@ button:focus-visible {
   color: rgb(51, 51, 42);
   font-weight: bold;
 }
+
+.menu li{
+  background-color: rgb(221, 218, 218);
+  padding: 0.5rem;
+  min-width: 7rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.menu li .active{
+  background-color: #a6d156; /* Change to your desired color */
+  border-radius: 0.6rem;
+}
