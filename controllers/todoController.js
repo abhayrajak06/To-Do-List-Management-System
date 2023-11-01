@@ -3,7 +3,8 @@ import userModel from "../models/userModel.js";
 
 export const createTodoController = async (req, res) => {
   try {
-    const { title, description, category, priority, status } = req.body;
+    const { title, description, dueDate, category, priority, status } =
+      req.body;
     const email = req.headers.authorization;
     const user = await userModel.findOne({ email: email });
 
@@ -17,6 +18,7 @@ export const createTodoController = async (req, res) => {
     const todo = new todoModel({
       title,
       description,
+      dueDate,
       category,
       priority,
       status,
@@ -65,11 +67,12 @@ export const readTodoController = async (req, res) => {
 export const updateTodoController = async (req, res) => {
   try {
     const { tId } = req.params;
-    const { title, description, priority, status } = req.body;
+    const { title, description, dueDate, category, priority, status } =
+      req.body;
 
     const todo = await todoModel.findByIdAndUpdate(
       tId,
-      { title, description, priority, status },
+      { title, description, dueDate, category, priority, status },
       { new: true }
     );
 
@@ -115,6 +118,42 @@ export const deleteTodoController = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error while deleting todo",
+    });
+  }
+};
+
+export const getSingleTodoController = async (req, res) => {
+  try {
+    const { tId } = req.params;
+    const email = req.headers.authorization;
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(403).json({
+        success: false,
+        message: "User not authorized",
+      });
+    }
+
+    const todo = await todoModel.findOne({ _id: tId });
+
+    if (!todo) {
+      return res.status(404).json({
+        success: false,
+        message: "Todo not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Single todo retrieved successfully",
+      todo,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while getting single todo",
     });
   }
 };

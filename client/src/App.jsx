@@ -8,6 +8,11 @@ import CreateTodo from "./pages/Todo/CreateTodo";
 import PendingTodos from "./pages/Todo/PendingTodos";
 import CompletedTodos from "./pages/Todo/CompletedTodos";
 import AllTodos from "./pages/Todo/AllTodos";
+import UpdateTodo from "./pages/Todo/UpdateTodo";
+import Categories from "./pages/Categories";
+import CategoryTodos from "./pages/CategoryTodos";
+import InProgressTodos from "./pages/Todo/InProgressTodos";
+import ScrollToTop from "react-scroll-to-top";
 
 function App() {
   return (
@@ -17,10 +22,15 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create-todo" element={<CreateTodo />} />
+        <Route path="/inprogress-todos" element={<InProgressTodos />} />
         <Route path="/pending-todos" element={<PendingTodos />} />
         <Route path="/completed-todos" element={<CompletedTodos />} />
         <Route path="/all-todos" element={<AllTodos />} />
+        <Route path="/update-todo/:tId" element={<UpdateTodo />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/categories/:cName" element={<CategoryTodos />} />
       </Routes>
+      <ScrollToTop smooth color="black" style={{ backgroundColor: "gray" }} />
       <Toaster />
     </>
   );

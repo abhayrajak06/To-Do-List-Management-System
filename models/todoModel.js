@@ -10,6 +10,10 @@ const todoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    dueDate: {
+      type: String,
+      required: true,
+    },
     category: {
       type: String,
       required: true,

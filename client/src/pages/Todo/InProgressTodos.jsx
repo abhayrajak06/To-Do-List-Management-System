@@ -40,7 +40,7 @@ const AllTodos = () => {
   };
 
   const sortTodos = () => {
-    let sorted = [...todos];
+    let sorted = todos.filter((todo) => todo.status === "In_progress");
 
     if (sortPriority !== "All") {
       sorted = sorted.filter((todo) => todo.priority === sortPriority);

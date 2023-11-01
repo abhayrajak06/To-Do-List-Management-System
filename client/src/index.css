@@ -89,7 +89,7 @@ button:focus-visible {
 .menu li{
   background-color: rgb(221, 218, 218);
   padding: 0.5rem;
-  min-width: 7rem;
+  min-width: 6rem;
   border-radius: 1rem;
   text-align: center;
   font-weight: bold;

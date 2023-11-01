@@ -1,13 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import TodosMenu from "../../components/TodosMenu";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../components/context/auth";
-import { catList } from "../../utils/catList";
 
-const CreateTodo = () => {
+const UpdateTodo = () => {
+  const { tId } = useParams();
+  const [auth] = useAuth();
+
+  const getTodoData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/todos/get-todo/${tId}`,
+        {
+          headers: {
+            Authorization: `${auth?.user?.email}`,
+          },
+        }
+      );
+      if (data) {
+        setTodo(data.todo);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getTodoData();
+  }, []);
+
   const [todo, setTodo] = useState({
     title: "",
     description: "",
@@ -16,7 +40,7 @@ const CreateTodo = () => {
     priority: "Low",
     status: "In_progress",
   });
-  const [auth] = useAuth();
+
   const navigate = useNavigate();
   const handleChange = (e) => {
     setTodo({
@@ -34,8 +58,8 @@ const CreateTodo = () => {
       const category = todo.category;
       const priority = todo.priority;
       const status = todo.status;
-      const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/todos/create`,
+      const res = await axios.put(
+        `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/todos/update/${tId}`,
         { title, description, dueDate, category, priority, status },
         {
           headers: {
@@ -44,7 +68,7 @@ const CreateTodo = () => {
         }
       );
       if (res?.data?.success) {
-        toast.success("Todo created successfully");
+        toast.success("Todo updated successfully");
         navigate("/all-todos");
       }
     } catch (error) {
@@ -134,11 +158,22 @@ const CreateTodo = () => {
                     onChange={handleChange}
                     required
                   >
-                    {catList?.map((cat) => (
-                      <option key={cat.id} value={cat.name}>
-                        {cat.name}
-                      </option>
-                    ))}
+                    <option value="Personal">Personal</option>
+                    <option value="Work">Work</option>
+                    <option value="Home">Home</option>
+                    <option value="Health and Fitness">
+                      Health and Fitness
+                    </option>
+                    <option value="Education">Education</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Social">Social</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Hobbies">Hobbies</option>
+                    <option value="Long-Term Goals">Long-Term Goals</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Miscellaneous">Miscellaneous</option>
                   </select>
                 </label>
                 <label>
@@ -169,7 +204,7 @@ const CreateTodo = () => {
                 </label>
               </div>
               <button type="submit" className="btn btn-primary w-100">
-                Create
+                Update
               </button>
             </form>
           </div>
@@ -179,4 +214,4 @@ const CreateTodo = () => {
   );
 };
 
-export default CreateTodo;
+export default UpdateTodo;

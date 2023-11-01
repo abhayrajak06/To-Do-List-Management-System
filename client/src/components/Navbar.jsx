@@ -16,7 +16,7 @@ const Navbar = () => {
     localStorage.removeItem("auth");
   };
   return (
-    <div>
+    <div style={{ position: "sticky", top: "0", zIndex: "100" }}>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <Link

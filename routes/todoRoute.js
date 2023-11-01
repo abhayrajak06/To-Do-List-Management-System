@@ -2,6 +2,7 @@ import express from "express";
 import {
   createTodoController,
   deleteTodoController,
+  getSingleTodoController,
   readTodoController,
   updateTodoController,
 } from "../controllers/todoController.js";
@@ -20,5 +21,8 @@ router.put("/update/:tId", updateTodoController);
 
 //delete todo || DELETE
 router.delete("/delete/:tId", deleteTodoController);
+
+//get todo || GET
+router.get("/get-todo/:tId", getSingleTodoController);
 
 export default router;
