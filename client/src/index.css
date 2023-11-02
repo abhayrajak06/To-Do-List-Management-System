@@ -96,6 +96,7 @@ button:focus-visible {
 }
 
 .menu li .active{
-  background-color: #a6d156; /* Change to your desired color */
+  background-color: #a6d156; 
   border-radius: 0.6rem;
 }
+

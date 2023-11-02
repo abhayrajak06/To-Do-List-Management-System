@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./context/auth";
 import toast from "react-hot-toast";
+import { IoIosNotifications } from "react-icons/io";
 
 const Navbar = () => {
   const [auth, setAuth] = useAuth();
@@ -87,14 +88,40 @@ const Navbar = () => {
                     </Link>
                   </li>
 
-                  <li className="nav-item">
+                  <li className="nav-item dropdown me-2">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      {auth?.user?.name}
+                    </a>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link className="dropdown-item" to={"/my-profile"}>
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          onClick={handleLogout}
+                          // aria-current="page"
+                          to={"/login"}
+                        >
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
                     <Link
                       className="nav-link"
-                      onClick={handleLogout}
-                      aria-current="page"
-                      to={"/login"}
+                      style={{ marginRight: "2rem" }}
+                      to={"/notification"}
                     >
-                      Logout
+                      <IoIosNotifications size={30} />
                     </Link>
                   </li>
                 </>

@@ -13,6 +13,7 @@ import Categories from "./pages/Categories";
 import CategoryTodos from "./pages/CategoryTodos";
 import InProgressTodos from "./pages/Todo/InProgressTodos";
 import ScrollToTop from "react-scroll-to-top";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/update-todo/:tId" element={<UpdateTodo />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/categories/:cName" element={<CategoryTodos />} />
+        <Route path="/my-profile" element={<Profile />} />
       </Routes>
       <ScrollToTop smooth color="black" style={{ backgroundColor: "gray" }} />
       <Toaster />
