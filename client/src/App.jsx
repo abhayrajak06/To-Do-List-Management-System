@@ -14,6 +14,7 @@ import CategoryTodos from "./pages/CategoryTodos";
 import InProgressTodos from "./pages/Todo/InProgressTodos";
 import ScrollToTop from "react-scroll-to-top";
 import Profile from "./pages/Profile";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/categories" element={<Categories />} />
         <Route path="/categories/:cName" element={<CategoryTodos />} />
         <Route path="/my-profile" element={<Profile />} />
+        <Route path="/notifications" element={<Notifications />} />
       </Routes>
       <ScrollToTop smooth color="black" style={{ backgroundColor: "gray" }} />
       <Toaster />

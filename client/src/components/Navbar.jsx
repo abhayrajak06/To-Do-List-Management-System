@@ -119,7 +119,7 @@ const Navbar = () => {
                     <Link
                       className="nav-link"
                       style={{ marginRight: "2rem" }}
-                      to={"/notification"}
+                      to={"/notifications"}
                     >
                       <IoIosNotifications size={30} />
                     </Link>

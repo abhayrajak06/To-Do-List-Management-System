@@ -54,7 +54,14 @@ const CategoryTodos = () => {
         <div className="row">
           <div className="col-md-12">
             <h1 className="text-center mt-2">{cName} Todos</h1>
-            <ul>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "2rem",
+                justifyContent: "center",
+              }}
+            >
               {catTodo?.length ? (
                 catTodo?.map((t) => (
                   <div
@@ -129,7 +136,7 @@ const CategoryTodos = () => {
                   </h4>
                 </div>
               )}
-            </ul>
+            </div>
           </div>
         </div>
       </div>
