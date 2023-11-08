@@ -1,6 +1,5 @@
 import express from "express";
 import { getUserData, updateUserData } from "../controllers/userController.js";
-import formidable from "express-formidable";
 
 const router = express.Router();
 
@@ -8,6 +7,6 @@ const router = express.Router();
 router.get("/my-details", getUserData);
 
 //user details update || POST
-router.put("/update-details", formidable(), updateUserData);
+router.put("/update-details", updateUserData);
 
 export default router;

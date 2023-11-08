@@ -1,6 +1,5 @@
 import { hashPassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
-import fs from "fs";
 
 export const getUserData = async (req, res) => {
   try {
@@ -30,32 +29,32 @@ export const updateUserData = async (req, res) => {
   try {
     const authEmail = req.headers.authorization;
     const user = await userModel.findOne({ email: authEmail });
-    const uId = user._id;
-    const { profilePicture } = req.files;
+    const uId = user?._id;
 
     const { name, email, password } = req.body;
-    const hashedPassword = await hashPassword(password);
 
-    if (profilePicture && profilePicture.size > 200000)
-      return res
-        .status(500)
-        .json({ message: "Profile picture should be less than 2 mb" });
+    //password
+    if (password && password.length < 6) {
+      return res.json({ message: "Password should be 6 character long" });
+    }
 
-    const updatedData = await userModel.findByIdAndUpdate(
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+
+    const updatedUser = await userModel.findByIdAndUpdate(
       uId,
-      { name, email, password: hashedPassword },
+      {
+        name: name || user?.name,
+        email: email || user?.email,
+        password: hashedPassword || user?.password,
+      },
       { new: true }
     );
 
-    if (profilePicture) {
-      updatedData.profilePicture.data = fs.readFileSync(profilePicture.path);
-      updatedData.profilePicture.contentType = profilePicture.type;
-    }
-
-    await updatedData.save();
     res.status(200).json({
       success: true,
       message: "Data updated successfully",
+      user,
+      updatedUser,
     });
   } catch (error) {
     console.log(error);

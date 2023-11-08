@@ -15,10 +15,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    profilePicture: {
-      data: Buffer,
-      contentType: String,
-    },
     todos: [
       {
         type: mongoose.Types.ObjectId,

@@ -5,29 +5,50 @@ import { useAuth } from "../components/context/auth";
 import toast from "react-hot-toast";
 
 const Profile = () => {
-  const [auth] = useAuth();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
-  const [pic, setPic] = useState("");
+  const [auth, setAuth] = useAuth();
+  const [details, setDetails] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [image, setImage] = useState();
+
+  const submitImage = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", image);
+  };
+  const onInputChange = (e) => {
+    console.log(e.target.files[0]);
+    setImage(e.target.files[0]);
+  };
+
+  const handleChange = (e) => {
+    setDetails({ ...details, [e.target.name]: e.target.value });
+  };
 
   const getUserData = async () => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/user/my-details`,
-      {
-        headers: {
-          Authorization: `${auth?.user?.email}`,
-        },
-      }
-    );
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/user/my-details`,
+        {
+          headers: {
+            Authorization: `${auth?.user?.email}`,
+          },
+        }
+      );
 
-    if (data) {
-      setName(data?.user?.name);
-      setEmail(data?.user?.email);
-      setPic(data?.user?.profilePicture?.data);
-      // console.log(data);
-      console.log(data);
+      if (data?.user) {
+        setDetails({
+          name: data.user.name,
+          email: data.user.email,
+          password: details.password,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data");
     }
   };
 
@@ -38,30 +59,27 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("password", password);
-      if (profilePicture) {
-        formData.append("profilePicture", profilePicture);
-      }
-
       const { data } = await axios.put(
         `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/user/update-details`,
-        formData,
+        details,
         {
           headers: {
             Authorization: `${auth?.user?.email}`,
-            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      if (data) {
+      if (data?.success) {
+        setAuth({ ...auth, user: data?.updatedUser });
+        let ls = localStorage.getItem("auth");
+        ls = JSON.parse(ls);
+        ls.data = data.updatedUser;
+        localStorage.setItem("auth", JSON.stringify(ls));
         toast.success("Profile updated successfully");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      console.error("Error updating user data:", error);
+      toast.error("Failed to update user profile");
     }
   };
 
@@ -95,20 +113,24 @@ const Profile = () => {
                 width: "18rem",
                 backgroundColor: "gray",
               }}
+            ></div>
+            <div
+              className=" p-3 mt-1"
+              style={{ backgroundColor: "whitesmoke", borderRadius: "0.4rem" }}
             >
-              {pic ? (
-                <img
-                  src={pic}
-                  style={{
-                    width: "18rem",
-                    height: "18rem",
-                    borderRadius: "40rem",
-                  }}
-                  alt="Profile"
-                />
-              ) : (
-                <p>No image selected</p>
-              )}
+              <form
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+                onSubmit={submitImage}
+              >
+                <input type="file" accept="image/*" onChange={onInputChange} />
+                <button type="submit" className="btn w-50 btn-primary">
+                  Update Picture
+                </button>
+              </form>
             </div>
           </div>
           <div className="col-md-7">
@@ -133,9 +155,10 @@ const Profile = () => {
                   </label>
                   <input
                     placeholder="Enter your name"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={handleChange}
                     type="text"
-                    value={name}
+                    name="name"
+                    value={details.name}
                     className="form-control"
                     id="exampleInputName"
                   />
@@ -147,8 +170,9 @@ const Profile = () => {
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
+                    onChange={handleChange}
+                    value={details.email}
+                    name="email"
                     className="form-control"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
@@ -161,20 +185,11 @@ const Profile = () => {
                   <input
                     type="password"
                     placeholder="Enter new password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    onChange={handleChange}
+                    value={details.password}
+                    name="password"
                     className="form-control"
                     id="exampleInputPassword1"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="profile">Profile</label>
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setProfilePicture(e.target.files[0])}
-                    id="profile"
                   />
                 </div>
                 <button type="submit" className="btn btn-primary w-100">

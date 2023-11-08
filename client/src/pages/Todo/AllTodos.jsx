@@ -57,7 +57,7 @@ const AllTodos = () => {
 
   useEffect(() => {
     allTodos();
-  }, [todos]);
+  }, []);
 
   useEffect(() => {
     sortTodos();
