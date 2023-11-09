@@ -13,11 +13,19 @@ const Profile = () => {
   });
   const [image, setImage] = useState();
 
-  const submitImage = (e) => {
+  const submitImage = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("image", image);
+
+    const result = await axios.post(
+      `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/user/upload-image`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
   };
   const onInputChange = (e) => {
     console.log(e.target.files[0]);
