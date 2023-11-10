@@ -4,7 +4,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../client/src/profilePics");
+    cb(null, "./client/src/assets");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();

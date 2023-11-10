@@ -100,3 +100,18 @@ button:focus-visible {
   border-radius: 0.6rem;
 }
 
+
+.profile-pic{
+  position: relative;
+  animation-name: example;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+
+
+@keyframes example {
+  0%   { left:0px; top:0px;}
+  50%  {top:8px; bottom:0px;}
+  100% { left:0px; top:0px;}
+}

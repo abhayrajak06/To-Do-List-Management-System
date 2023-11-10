@@ -26,6 +26,7 @@ const Profile = () => {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
+    toast.success("Profile Picture Updated");
   };
   const onInputChange = (e) => {
     console.log(e.target.files[0]);
@@ -114,14 +115,29 @@ const Profile = () => {
           >
             <h3 className="text-center">Profile Picture</h3>
             <div
-              className="mt-5"
+              className="mt-5 p-1 profile-pic"
               style={{
                 borderRadius: "60rem",
                 height: "18rem",
                 width: "18rem",
                 backgroundColor: "gray",
               }}
-            ></div>
+            >
+              {image && (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "60rem",
+                    border: "0.2rem solid black",
+                    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                  }}
+                />
+              )}
+            </div>
             <div
               className=" p-3 mt-1"
               style={{ backgroundColor: "whitesmoke", borderRadius: "0.4rem" }}
