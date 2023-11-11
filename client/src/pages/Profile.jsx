@@ -23,7 +23,10 @@ const Profile = () => {
       `${import.meta.env.VITE_REACT_APP_PORT}/api/v1/user/upload-image`,
       formData,
       {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `${auth?.user?.email}`,
+        },
       }
     );
     toast.success("Profile Picture Updated");
