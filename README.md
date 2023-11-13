@@ -1,6 +1,6 @@
 # To-Do-List-Management-System
 
-# Using MERN stack 
+# Using MERN stack
 
 This project has several key features:
 
