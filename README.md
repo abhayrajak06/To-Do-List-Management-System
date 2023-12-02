@@ -14,7 +14,7 @@ This project has several key features:
 
 - Registered users can create, read, update, and delete tasks.
 
-- Each task should have a title, description, due date, priority, and status (e.g., to-do, in-progress, completed).
+- Each task should have a title, description, due date, priority, and status (e.g., to-do, in progress, completed).
 
 3. Task Organization:
 
